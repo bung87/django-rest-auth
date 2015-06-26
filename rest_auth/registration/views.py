@@ -5,8 +5,8 @@ from rest_framework.permissions import AllowAny
 from rest_framework import status
 
 from allauth.account.views import SignupView, ConfirmEmailView
-from allauth.account.utils import complete_signup
-from moe.auth.utils import complete_signup
+# from allauth.account.utils import complete_signup
+from moe_auth.auth.utils import complete_signup
 from allauth.account import app_settings
 
 from rest_auth.app_settings import UserDetailsSerializer
