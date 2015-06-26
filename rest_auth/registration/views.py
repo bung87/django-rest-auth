@@ -3,7 +3,6 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.permissions import AllowAny
 from rest_framework import status
-
 from allauth.account.views import SignupView, ConfirmEmailView
 # from allauth.account.utils import complete_signup
 from moe_auth.auth.utils import complete_signup
@@ -14,7 +13,7 @@ from rest_auth.registration.serializers import SocialLoginSerializer
 from rest_auth.views import Login
 
 
-class Register(APIView, SignupView):
+class Register(APIView):
 
     permission_classes = (AllowAny,)
     user_serializer_class = UserDetailsSerializer
@@ -39,10 +38,9 @@ class Register(APIView, SignupView):
     def post(self, request, *args, **kwargs):
         self.initial = {}
         self.request.POST = self.request.DATA.copy()
-        form_class = self.get_form_class()
-        self.form = self.get_form(form_class)
-        if self.form.is_valid():
-            self.form_valid(self.form)
+        serializer = self.get_serializer(data= self.request.POST)
+        if  serializer.is_valid():
+            serializer.save()
             return self.get_response()
         else:
             return self.get_response_with_errors()
